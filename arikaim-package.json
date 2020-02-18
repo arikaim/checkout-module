@@ -1,0 +1,16 @@
+{
+    "title": "Checkout",
+    "name": "checkout",
+    "version": "1.0.0",
+    "package-type": "module",
+    "class": "Checkout",
+    "description": "Arikam CMS checkout module",
+    "type": "package",
+    "category": "captcha",
+    "repository": "https://github.com/arikaim/checkout-module",
+    "require": {
+        "composer": [
+            "srmklive/paypal"
+        ]
+    }
+}
