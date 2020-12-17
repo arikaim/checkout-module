@@ -13,9 +13,9 @@
         "php": ">=7.1",
         "arikaim/installer": "*",
         "arikaim/http": "^1.0.0",
-        "srmklive/paypal": "~1.0.0"
+        "paypal/rest-api-sdk-php": "^1.0.0"
     },
     "extra": {
-        "path": "recaptcha"
+        "path": "checkout"
     }
 }

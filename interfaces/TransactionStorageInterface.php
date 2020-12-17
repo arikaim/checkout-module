@@ -1,0 +1,34 @@
+<?php
+/**
+ * Arikaim
+ *
+ * @link        http://www.arikaim.com
+ * @copyright   Copyright (c)  Konstantin Atanasov <info@arikaim.com>
+ * @license     http://www.arikaim.com/license
+ * 
+*/
+namespace Arikaim\Modules\Checkout\Interfaces;
+
+use Arikaim\Modules\Checkout\Interfaces\TransactionInterface;
+
+/**
+ * Transaction storage interface
+ */
+interface TransactionStorageInterface 
+{  
+    /**
+     * Save transaction
+     *
+     * @param TransactionInterface $transaction
+     * @return boolean
+    */
+    public function saveTransaction(TransactionInterface $transaction);
+
+    /**
+     * Get transaction
+     *
+     * @param string $id
+     * @return mixed
+    */
+    public function geTransaction($id);
+}
