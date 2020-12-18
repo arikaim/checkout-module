@@ -144,12 +144,12 @@ class PayPalSubscriptionsDriver implements DriverInterface, SubscriptionsProvide
         $type = $this->resolveTransactionType($details['txn_type']);
 
         return Transaction::createFromArray([
-            'payer_email'    => $details['payer_email'],
+            'payer_email'    => $details['payer_email'] ?? null,
             'payer_name'     => $details['first_name'] . ' ' . $details['last_name'],
-            'transaction_id' => $details['txn_id'],           
+            'transaction_id' => $details['txn_id'] ?? null,           
             'type'           => $type,
             'amount'         => $details['amount'],
-            'currency'       => $details['mc_currency'],
+            'currency'       => $details['mc_currency'] ?? $details['currency_code'],
             'driver'         => 'paypal-subscriptions',
             'details'        => $details
         ]);

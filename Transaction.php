@@ -110,6 +110,18 @@ class Transaction implements TransactionInterface
     }
 
     /**
+     * Get field value
+     *
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    public function getFiledValue($key, $default = null)
+    {
+        return $this->details[$key] ?? $default;
+    }
+
+    /**
      * Check if transaction data is valid
      *
      * @return boolean
