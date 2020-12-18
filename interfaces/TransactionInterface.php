@@ -69,4 +69,11 @@ interface TransactionInterface
      * @return array
      */
     public function getDetails();
+
+    /**
+     * Get order id
+     *
+     * @return string|null
+     */
+    public function getOrderId();
 }

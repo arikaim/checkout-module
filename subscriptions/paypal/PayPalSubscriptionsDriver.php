@@ -143,7 +143,7 @@ class PayPalSubscriptionsDriver implements DriverInterface, SubscriptionsProvide
     {
         $type = $this->resolveTransactionType($details['txn_type']);
 
-        return Transaction::createFromArray([
+        $transaction = Transaction::createFromArray([
             'payer_email'    => $details['payer_email'] ?? null,
             'payer_name'     => $details['first_name'] . ' ' . $details['last_name'],
             'transaction_id' => $details['txn_id'] ?? $details['ipn_track_id'] ?? null,           
@@ -153,6 +153,11 @@ class PayPalSubscriptionsDriver implements DriverInterface, SubscriptionsProvide
             'driver'         => 'paypal-subscriptions',
             'details'        => $details
         ]);
+
+        $subscriptionId = $details['recurring_payment_id'] ?? null;
+        $transaction->setOrderId($subscriptionId);
+
+        return $transaction;
     }
 
     /**

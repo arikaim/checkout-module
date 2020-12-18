@@ -85,6 +85,13 @@ class Transaction implements TransactionInterface
     protected $details;
 
     /**
+     * Order id
+     *
+     * @var string|null
+     */
+    protected $orderId = null;
+
+    /**
      * Constructor
      *
      * @param string $transactionId
@@ -107,6 +114,27 @@ class Transaction implements TransactionInterface
         $this->type = $type;
         $this->driverName = $driverName;
         $this->details = $details;
+    }
+
+    /**
+     * Set order id
+     *
+     * @param string|null $id
+     * @return void
+     */
+    public function setOrderId($id)
+    {
+        $this->orderId = $id;
+    }
+
+    /**
+     * Get order id
+     *
+     * @return string|null
+     */
+    public function getOrderId()
+    {
+        return $this->orderId;
     }
 
     /**
@@ -168,7 +196,7 @@ class Transaction implements TransactionInterface
      * Create from array
      *
      * @param array $data
-     * @return TransactionInterface
+     * @return Self
      */
     public static function createFromArray(array $data)
     {
