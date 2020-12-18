@@ -41,8 +41,6 @@ class Subscription extends SubscriptionApi implements SubscriptionInterface
         $description = $description ?? 'Subscription Agreement';
         $startDate = DateTime::today()->format(DateTime::ISO8601ZULU_FORMAT);
 
-        echo $startDate;
-        
         $plan = new Plan();
         $plan->setId($planId);
         
