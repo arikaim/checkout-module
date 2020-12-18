@@ -110,6 +110,32 @@ class Transaction implements TransactionInterface
     }
 
     /**
+     * Check if transaction data is valid
+     *
+     * @return boolean
+     */
+    public function isValid()
+    {
+        if (empty($this->transactionId) == true) {
+            return false;
+        }
+
+        if (empty($this->type) == true) {
+            return false;
+        }
+
+        if (empty($this->amount) == true) {
+            return false;
+        }
+
+        if (empty($this->currency) == true) {
+            return false;
+        }
+
+        return true;
+    } 
+
+    /**
      * Get transaction details
      *
      * @return array
