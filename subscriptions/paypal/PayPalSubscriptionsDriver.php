@@ -52,6 +52,13 @@ class PayPalSubscriptionsDriver implements DriverInterface, SubscriptionsProvide
     protected $subscription;
 
     /**
+     * Options
+     *
+     * @var array
+     */
+    protected $options;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -83,15 +90,15 @@ class PayPalSubscriptionsDriver implements DriverInterface, SubscriptionsProvide
             'cache.enabled'  => false
         ]); 
 
-        $options = [
+        $this->options = [
             'notify_url' => Url::BASE_URL . $config['notify_url'],
             'return_url' => Url::BASE_URL . $config['return_url'],
             'cancel_url' => Url::BASE_URL . $config['cancel_url'],
             'locale'     => $config['locale'] ?? '',
         ];
         
-        $this->plan = new SubscriptionPlan($this->apiContext,$options);
-        $this->subscription = new Subscription($this->apiContext,$options);
+        $this->plan = new SubscriptionPlan($this->apiContext,$this->options);
+        $this->subscription = new Subscription($this->apiContext,$this->options);
     }
 
     /**
@@ -178,6 +185,16 @@ class PayPalSubscriptionsDriver implements DriverInterface, SubscriptionsProvide
     public function subscription()
     {
         return $this->subscription;
+    }
+
+    /**
+     * Get IPN url
+     *
+     * @return string
+    */
+    public function getIpnUrl()
+    {
+        return $this->options['notify_url'] ?? '';
     }
 
     /**

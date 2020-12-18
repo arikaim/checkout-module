@@ -33,6 +33,13 @@ interface SubscriptionsProviderInteface
     public function subscription();   
     
     /**
+     * Get IPN url
+     *
+     * @return string
+    */
+    public function getIpnUrl();   
+
+    /**
      * Create transaction obj ref
      *
      * @return TransactionInterface
