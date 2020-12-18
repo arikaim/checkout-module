@@ -128,10 +128,6 @@ class Transaction implements TransactionInterface
      */
     public function isValid()
     {
-        if (empty($this->transactionId) == true) {
-            return false;
-        }
-
         if (empty($this->type) == true) {
             return false;
         }

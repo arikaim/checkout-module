@@ -146,7 +146,7 @@ class PayPalSubscriptionsDriver implements DriverInterface, SubscriptionsProvide
         return Transaction::createFromArray([
             'payer_email'    => $details['payer_email'] ?? null,
             'payer_name'     => $details['first_name'] . ' ' . $details['last_name'],
-            'transaction_id' => $details['txn_id'] ?? null,           
+            'transaction_id' => $details['txn_id'] ?? $details['ipn_track_id'] ?? null,           
             'type'           => $type,
             'amount'         => $details['amount'],
             'currency'       => $details['mc_currency'] ?? $details['currency_code'],
