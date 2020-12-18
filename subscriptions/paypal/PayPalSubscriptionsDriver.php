@@ -285,7 +285,7 @@ class PayPalSubscriptionsDriver implements DriverInterface, SubscriptionsProvide
                 ->title('Notify Url')
                 ->type('url')
                 ->readonly(true)
-                ->default('/api/subscription/notify/');
+                ->default('/api/subscription/notify');
         });
     } 
 }
