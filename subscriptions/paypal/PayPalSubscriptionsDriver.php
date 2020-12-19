@@ -85,8 +85,6 @@ class PayPalSubscriptionsDriver implements DriverInterface, SubscriptionsProvide
         $this->apiContext->setConfig([
             'mode'           => $config['mode'],
             'log.LogEnabled' => false,
-            'log.FileName'   => '../PayPal.log',
-            'log.LogLevel'   => 'DEBUG',
             'cache.enabled'  => false
         ]); 
 

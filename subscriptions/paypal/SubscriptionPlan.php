@@ -69,6 +69,7 @@ class SubscriptionPlan extends SubscriptionApi implements SubscriptionPlanInterf
         $merchantPreferences
             ->setReturnUrl($this->getOption('return_url'))
             ->setCancelUrl($this->getOption('cancel_url'))
+            ->setNotifyUrl($this->getOption('notify_url'))
             ->setAutoBillAmount('yes')
             ->setInitialFailAmountAction('CANCEL')
             ->setMaxFailAttempts('0');
