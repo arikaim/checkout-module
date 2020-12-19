@@ -155,7 +155,7 @@ class PayPalSubscriptionsDriver implements DriverInterface, SubscriptionsProvide
             'type'           => $type,
             'amount'         => $details['amount'],
             'currency'       => $details['mc_currency'] ?? $details['currency_code'],
-            'driver'         => 'paypal-subscriptions',
+            'driver_name'    => 'paypal-subscriptions',
             'details'        => $details
         ]);
 

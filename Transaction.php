@@ -220,14 +220,15 @@ class Transaction implements TransactionInterface
     public function toArray()
     {
         return [
-            'payer_email'  => $this->getPayerEmail(),
-            'payer_name'   => $this->getPayerName(),
-            'transaction'  => $this->getTransactionId(),
-            'type'         => $this->getType(),
-            'amount'       => $this->getAmount(),
-            'currency'     => $this->getCurrency(),
-            'driver'       => $this->geetCheckoutDriver(),
-            'details'      => $this->getDetails()
+            'payer_email' => $this->getPayerEmail(),
+            'payer_name'  => $this->getPayerName(),
+            'transaction' => $this->getTransactionId(),
+            'type'        => $this->getType(),
+            'amount'      => $this->getAmount(),
+            'order_id'    => $this->getOrderId(),
+            'currency'    => $this->getCurrency(),
+            'driver_name' => $this->geetCheckoutDriver(),
+            'details'     => $this->getDetails()
         ];     
     }
 
