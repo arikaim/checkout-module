@@ -109,10 +109,10 @@ class PayPalSubscriptionsDriver implements DriverInterface, SubscriptionsProvide
     {
         switch($type) {
             case 'recurring_payment_profile_created':
-                $type = Transaction::SUBSCRIPTION_START;
+                $type = Transaction::SUBSCRIPTION_CREATE;
                 break;
             case 'subscr_signup':
-                $type = Transaction::SUBSCRIPTION_START;
+                $type = Transaction::SUBSCRIPTION_CREATE;
                 break;
             case 'recurring_payment':
                 $type = Transaction::SUBSCRIPTION_PAYMENT;
