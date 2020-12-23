@@ -91,7 +91,11 @@ class Subscription extends SubscriptionApi implements SubscriptionInterface
         }
 
         if ($response->state == 'Active') {
-            return ApiResult::success($response);    
+            return ApiResult::success([
+                'id'                => $response->getId(),
+                'next_billing_date' => $response->getAgreementDetails()->getNextBillingDate(),
+                'response'          => $response
+            ]);    
         }
         
         return ApiResult::error('Error activate subscripton',$response);

@@ -107,6 +107,18 @@ class ApiResult
     }
 
     /**
+     * Get resutl item value
+     *
+     * @param string $name
+     * @param mixed $default
+     * @return mixed
+     */
+    public function getResultItem($name, $default = null)
+    {
+        $this->result['result'][$name] ?? $default;
+    }
+
+    /**
      * Get error message
      *
      * @return string
