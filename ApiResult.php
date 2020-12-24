@@ -115,7 +115,7 @@ class ApiResult
      */
     public function getResultItem($name, $default = null)
     {
-        $this->result['result'][$name] ?? $default;
+        return $this->result['result'][$name] ?? $default;
     }
 
     /**
