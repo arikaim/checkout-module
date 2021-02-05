@@ -7,7 +7,7 @@
  * @license     http://www.arikaim.com/license
  * 
 */
-namespace Arikaim\Modules\Checkout\Subscriptions\PayPal;
+namespace Arikaim\Modules\Checkout\Drivers;
 
 use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Rest\ApiContext;

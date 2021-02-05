@@ -19,7 +19,7 @@ class Transaction implements TransactionInterface
     const SUBSCRIPTION_PAYMENT = 'subscription_payment';
     const SUBSCRIPTION_EXPIRED = 'subscription_expired';
     const SUBSCRIPTION_CANCEL  = 'subscription_cancel';
-    const SUBSCRIPTION_CREATE = 'subscription_create';
+    const SUBSCRIPTION_CREATE  = 'subscription_create';
     
     /**
      * Payer email

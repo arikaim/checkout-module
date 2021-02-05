@@ -30,7 +30,7 @@ class Checkout extends Module
      */
     public function install()
     {    
-        $this->installDriver('Arikaim\\Modules\\Checkout\\Subscriptions\\PayPal\\PayPalSubscriptionsDriver');
+        $this->installDriver('Arikaim\\Modules\\Checkout\\Drivers\\PayPalSubscriptionsDriver');
 
         return true;
     }
