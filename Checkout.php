@@ -17,21 +17,12 @@ use Arikaim\Core\Extension\Module;
 class Checkout extends Module
 {   
     /**
-     * Constructor
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * Install module
      *
      * @return void
      */
     public function install()
     {    
-        $this->installDriver('Arikaim\\Modules\\Checkout\\Drivers\\PayPalSubscriptionsDriver');
-
-        return true;
+        $this->installDriver('Arikaim\\Modules\\Checkout\\Drivers\\PayPalSubscriptionsDriver'); 
     }
 }

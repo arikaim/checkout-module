@@ -76,8 +76,13 @@ class PayPalSubscriptionsDriver implements DriverInterface, SubscriptionsProvide
         $config = $properties->getValues(); 
         $mode = $config['mode'] ?? 'sandbox';
 
-        $clientId = $config[$mode]['client_id'];
-        $clientSecret = $config[$mode]['client_secret'];
+        if ($mode == 'live') {
+            $clientId = $properties->getValueAsText('client_id','live');
+            $clientSecret = $properties->getValueAsText('client_secret','live');
+        } else {
+            $clientId = $properties->getValueAsText('client_id','sandbox');
+            $clientSecret = $properties->getValueAsText('client_secret','sandbox');
+        }
        
         $token = new OAuthTokenCredential($clientId,$clientSecret);
         $this->apiContext = new ApiContext($token);
