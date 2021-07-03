@@ -9,6 +9,7 @@
 */
 namespace Arikaim\Modules\Checkout;
 
+use Arikaim\Core\Utils\DateTime;
 use Arikaim\Modules\Checkout\Interfaces\TransactionInterface;
 
 /**
@@ -16,6 +17,7 @@ use Arikaim\Modules\Checkout\Interfaces\TransactionInterface;
  */
 class Transaction implements TransactionInterface
 {   
+    const CHECKOUT             = 'checkout';
     const SUBSCRIPTION_PAYMENT = 'subscription_payment';
     const SUBSCRIPTION_EXPIRED = 'subscription_expired';
     const SUBSCRIPTION_CANCEL  = 'subscription_cancel';
@@ -24,14 +26,14 @@ class Transaction implements TransactionInterface
     /**
      * Payer email
      *
-     * @var string
+     * @var string|null
      */
     protected $payerEmail;
 
     /**
      * Payer name
      *
-     * @var string
+     * @var string|null
      */
     protected $payerName;
 
@@ -52,9 +54,9 @@ class Transaction implements TransactionInterface
     /**
      * Amount paid
      *
-     * @var float|string
+     * @var float
      */
-    protected $amount;
+    protected $amount = 0.00;
 
     /**
      * Currency code
@@ -73,16 +75,16 @@ class Transaction implements TransactionInterface
     /**
      * Transaction status 
      *
-     * @var integer
+     * @var int
      */
-    protected $status;
+    protected $status = 0;
     
     /**
-     * TRansaction details
+     * Transaction details
      *
-     * @var string
+     * @var array
      */
-    protected $details;
+    protected $details = [];
 
     /**
      * Order id
@@ -90,6 +92,13 @@ class Transaction implements TransactionInterface
      * @var string|null
      */
     protected $orderId = null;
+
+    /**
+     * Date time created
+     *
+     * @var int|null
+     */
+    protected $dateCreated = null;
 
     /**
      * Constructor
@@ -103,7 +112,16 @@ class Transaction implements TransactionInterface
      * @param string $driverName
      * @param array $details
      */
-    public function __construct($transactionId, $payerEmail, $payerName, $amount, $currency, $type, $driverName, $details = [])
+    public function __construct(
+        $transactionId, 
+        string $payerEmail, 
+        string $payerName, 
+        $amount, 
+        string $currency, 
+        string $type, 
+        string $driverName, 
+        array $details = []
+    )
     {
         $this->transactionId = $transactionId;
         $this->payerEmail = $payerEmail;
@@ -122,9 +140,51 @@ class Transaction implements TransactionInterface
      * @param string|null $id
      * @return void
      */
-    public function setOrderId($id)
+    public function setOrderId(?string $id): void
     {
         $this->orderId = $id;
+    }
+
+    /**
+     * Get status
+     *
+     * @return int
+     */
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set status
+     *
+     * @param mixed $status
+     * @return void
+     */
+    public function setStatus($status): void
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * Get date time created timestamp
+     *
+     * @return integer
+    */
+    public function getDateTimeCreated(): int
+    {
+        return $this->dateCreated ?? DateTime::getTimestamp();
+    }
+
+    /**
+     * Get date time created timestamp
+     *
+     * @param int $dateCreated
+     * @return void
+    */
+    public function setDateTimeCreated(int $dateCreated): void
+    {
+        $this->dateCreated = $dateCreated;
     }
 
     /**
@@ -132,7 +192,7 @@ class Transaction implements TransactionInterface
      *
      * @return string|null
      */
-    public function getOrderId()
+    public function getOrderId(): ?string
     {
         return $this->orderId;
     }
@@ -144,7 +204,7 @@ class Transaction implements TransactionInterface
      * @param mixed $default
      * @return mixed
      */
-    public function getFiledValue($key, $default = null)
+    public function getFiledValue(string $key, $default = null)
     {
         return $this->details[$key] ?? $default;
     }
@@ -154,7 +214,7 @@ class Transaction implements TransactionInterface
      *
      * @return boolean
      */
-    public function isValid()
+    public function isValid(): bool
     {
         if (empty($this->type) == true) {
             return false;
@@ -176,7 +236,7 @@ class Transaction implements TransactionInterface
      *
      * @return array
      */
-    public function getDetails()
+    public function getDetails(): array
     {
         return $this->details;
     }
@@ -184,32 +244,12 @@ class Transaction implements TransactionInterface
     /**
      * Set details
      *
-     * @param string $details
+     * @param array $details
      * @return void
      */
-    public function setDetails($details)
+    public function setDetails(array $details): void
     {
         $this->details = $details;
-    }
-
-    /**
-     * Create from array
-     *
-     * @param array $data
-     * @return Self
-     */
-    public static function createFromArray(array $data)
-    {
-        $transactionId = $data['transaction_id'] ?? null;
-        $payerEmail = $data['payer_email'] ?? null;
-        $payerName = $data['payer_name'] ?? null;  
-        $amount = $data['amount'] ?? null;
-        $currency = $data['currency'] ?? null;
-        $type = $data['type'] ?? null;
-        $driverName = $data['driver_name'] ?? null;
-        $details = $data['details'] ?? [];
-
-        return new Self($transactionId,$payerEmail,$payerName,$amount,$currency,$type,$driverName,$details);
     }
 
     /**
@@ -217,17 +257,18 @@ class Transaction implements TransactionInterface
      *
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'payer_email' => $this->getPayerEmail(),
             'payer_name'  => $this->getPayerName(),
             'transaction' => $this->getTransactionId(),
             'type'        => $this->getType(),
+            'status'      => $this->getStatus(),
             'amount'      => $this->getAmount(),
             'order_id'    => $this->getOrderId(),
             'currency'    => $this->getCurrency(),
-            'driver_name' => $this->geetCheckoutDriver(),
+            'driver_name' => $this->getCheckoutDriver(),
             'details'     => $this->getDetails()
         ];     
     }
@@ -237,7 +278,7 @@ class Transaction implements TransactionInterface
      *    
      * @return string
      */
-    public function getCurrency()
+    public function getCurrency(): string
     {
         return $this->currency;
     }
@@ -247,7 +288,7 @@ class Transaction implements TransactionInterface
      *
      * @return string
      */
-    public function geetCheckoutDriver()
+    public function getCheckoutDriver(): string
     {
         return $this->driverName;
     }
@@ -255,9 +296,9 @@ class Transaction implements TransactionInterface
     /**
      * Gte payer email
      *
-     * @return string
+     * @return string|null
      */
-    public function getPayerEmail()
+    public function getPayerEmail(): ?string
     {
         return $this->payerEmail;
     }
@@ -265,9 +306,9 @@ class Transaction implements TransactionInterface
     /**
      * Get payer name
      *
-     * @return string
+     * @return string|null
      */
-    public function getPayerName()
+    public function getPayerName(): ?string
     {
         return $this->payerName;
     }
@@ -277,7 +318,7 @@ class Transaction implements TransactionInterface
      *
      * @return string
      */
-    public function getTransactionId()
+    public function getTransactionId(): string
     {
         return $this->transactionId;
     }
@@ -287,7 +328,7 @@ class Transaction implements TransactionInterface
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }

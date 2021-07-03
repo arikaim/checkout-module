@@ -14,40 +14,59 @@ namespace Arikaim\Modules\Checkout\Interfaces;
  */
 interface TransactionInterface 
 {  
+    const STATUS_PENDING   = 0;
+    const STATUS_COMPLETED = 1;
+    const STATUS_CANCELED  = 2;
+    const STATUS_ERROR     = 3;
+
     /**
      * Get currency
      *    
      * @return string
      */
-    public function getCurrency();
+    public function getCurrency(): string;
+
+    /**
+     * Get status
+     *
+     * @return int
+     */
+    public function getStatus(): int;
+
+    /**
+     * Get date time created timestamp
+     *
+     * @return integer
+    */
+    public function getDateTimeCreated(): int;
 
     /**
      * Get payer email
      *
-     * @return string
+     * @return string|null
      */
-    public function getPayerEmail();
+    public function getPayerEmail(): ?string;
 
     /**
      * Get payer name
      *
      * @return string
      */
-    public function getPayerName();
+    public function getPayerName(): ?string;
 
     /**
      * Gte transaction id
      *
      * @return string
      */
-    public function getTransactionId();
+    public function getTransactionId(): string;
 
     /**
      * Get type
      *
      * @return string
      */
-    public function getType();
+    public function getType(): string;
 
     /**
      * Get amount
@@ -61,19 +80,19 @@ interface TransactionInterface
      *
      * @return string
      */
-    public function geetCheckoutDriver();
+    public function getCheckoutDriver(): string;
 
     /**
      * Get transaction details
      *
      * @return array
      */
-    public function getDetails();
+    public function getDetails(): array;
 
     /**
      * Get order id
      *
      * @return string|null
      */
-    public function getOrderId();
+    public function getOrderId(): ?string;
 }

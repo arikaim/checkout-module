@@ -22,7 +22,7 @@ interface TransactionStorageInterface
      * @param TransactionInterface $transaction
      * @return boolean
     */
-    public function saveTransaction(TransactionInterface $transaction);
+    public function saveTransaction(TransactionInterface $transaction): bool;
 
     /**
      * Get transaction
@@ -30,5 +30,5 @@ interface TransactionStorageInterface
      * @param string $id
      * @return mixed
     */
-    public function geTransaction($id);
+    public function getTransaction($id);
 }
