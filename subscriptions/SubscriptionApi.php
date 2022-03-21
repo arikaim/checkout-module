@@ -32,6 +32,7 @@ class SubscriptionApi
      * Constructor
      * 
      * @param mixed $apiClient 
+     * @param array $options
      */
     public function __construct($apiClient, array $options = [])
     {
@@ -44,7 +45,7 @@ class SubscriptionApi
      *
      * @return array
      */
-    public function getOptions()
+    public function getOptions(): array
     {
         return $this->options;
     }

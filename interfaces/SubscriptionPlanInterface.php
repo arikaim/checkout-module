@@ -19,25 +19,38 @@ interface SubscriptionPlanInterface
     const ANNUAL_BILLING  = 'annual';
     const MONTHLY_BILLING = 'monthly';
 
+    const YEAR_INTERVAl = 'year';
+    const MONTH_INTERVAl = 'month';
+    const WEEK_INTERVAl = 'week';
+    const DAY_INTERVAl = 'day';
+
     /**
      * Create subscription pan
      *
-     * @param string $title
-     * @param string $description
+     * @param string|null $title
+     * @param string?null $description
      * @param float $price
      * @param string $currencyCode
      * @param string $billingType
+     * @param array|null $data
      * @return ApiResult
     */
-    public function create($title, $description, $price, $currency, $billingType);
+    public function create(
+        ?string $title, 
+        ?string $description, 
+        $price, 
+        string $currencyCode, 
+        string $billingType, 
+        ?array $data = null
+    );
 
     /**
      * Get subscriptions plans list
      *
-     * @param int $pageSize
+     * @param int|null $pageSize
      * @return ApiResult
      */
-    public function getList($pageSize = 20);
+    public function getList(?int $pageSize = 20);
 
     /**
      * Get plan details
@@ -50,7 +63,7 @@ interface SubscriptionPlanInterface
     /**
      * Delete plan
      *
-     * @param string $planId
+     * @param mixed $planId
      * @return ApiResult
     */
     public function delete($planId);
@@ -58,7 +71,7 @@ interface SubscriptionPlanInterface
     /**
      * Update plan
      *
-     * @param string $planId
+     * @param mixed $planId
      * @param string|array $data
      * @return ApiResult
     */

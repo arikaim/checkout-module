@@ -19,25 +19,27 @@ interface SubscriptionInterface
     /**
      * Create subscription 
      *
-     * @param string $title
-     * @param string $description
-     * @param float $price    
+     * @param mixed $planId    
+     * @param string|null $title
+     * @param string|null $description    
+     * @param array|null $data
      * @return ApiResult
     */
-    public function create($planId, $title = null, $description = null);
+    public function create($planId, ?string $title = null, ?string $description = null, ?array $data = null);
 
     /**
      * Confirm (execute) subscription
      *
      * @param string $token
+     * @param array|null $data
      * @return ApiResult
-     */
-    public function confirm($token);
+    */
+    public function confirm($token, ?array $data = null);
 
     /**
      * Get subscription details
      *
-     * @param string $id
+     * @param mixed $id
      * @return ApiResult
      */
     public function details($id);

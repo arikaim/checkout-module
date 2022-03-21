@@ -31,18 +31,26 @@ class SubscriptionPlan extends SubscriptionApi implements SubscriptionPlanInterf
     /**
      * Create subscription pan
      *
-     * @param string $title
-     * @param string $description
+     * @param string|null $title
+     * @param string?null $description
      * @param float $price
      * @param string $currencyCode
      * @param string $billingType
+     * @param array|null $data
      * @return ApiResult
     */
-    public function create($title, $description, $price, $currencyCode, $billingType)
+    public function create(
+        ?string $title, 
+        ?string $description, 
+        $price, 
+        string $currencyCode, 
+        string $billingType, 
+        ?array $data = null
+    )
     {
         $price = \number_format($price,2);
         $frequency = ($billingType == SubscriptionPlanInterface::ANNUAL_BILLING) ? 'YEAR' : 'MONTH';
-        $interval = '1';//($billingType == SubscriptionPlanInterface::ANNUAL_BILLING) ? '12' : '1';
+        $interval = '1';
         $plan = new Plan();
         $plan
             ->setName($title)
@@ -96,10 +104,10 @@ class SubscriptionPlan extends SubscriptionApi implements SubscriptionPlanInterf
     /**
      * Get subscription plans list
      *
-     * @param int $pageSize
+     * @param int|null $pageSize
      * @return ApiResult
     */
-    public function getList($pageSize = 20)
+    public function getList(?int $pageSize = 20)
     {
         try {
             $response = Plan::all([
@@ -118,7 +126,7 @@ class SubscriptionPlan extends SubscriptionApi implements SubscriptionPlanInterf
     /**
      * Get plan details
      *
-     * @param string $planId
+     * @param mixed $planId
      * @return ApiResult
      */
     public function getDetails($planId)
@@ -173,7 +181,7 @@ class SubscriptionPlan extends SubscriptionApi implements SubscriptionPlanInterf
     /**
      * Delete plan
      *
-     * @param string $planId
+     * @param mixed $planId
      * @return ApiResult
     */
     public function delete($planId)

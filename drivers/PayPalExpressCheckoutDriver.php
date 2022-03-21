@@ -16,14 +16,15 @@ use Arikaim\Core\Driver\Traits\Driver;
 use Arikaim\Core\Http\Url;
 use Arikaim\Core\Interfaces\Driver\DriverInterface;
 use Arikaim\Modules\Checkout\Transaction;
+use Arikaim\Modules\Checkout\CheckoutResponse;
 use Arikaim\Modules\Checkout\Interfaces\CheckoutDriverInterface;
 use Arikaim\Modules\Checkout\Interfaces\TransactionInterface;
-use Arikaim\Modules\Checkout\CheckoutData;
+use Arikaim\Core\Interfaces\Content\ContentItemInterface;
 
 /**
  * PayPal checkout driver class
  */
-class PayPalCheckoutDriver implements DriverInterface, CheckoutDriverInterface
+class PayPalExpressCheckoutDriver implements DriverInterface, CheckoutDriverInterface
 {   
     use Driver;
 
@@ -46,7 +47,12 @@ class PayPalCheckoutDriver implements DriverInterface, CheckoutDriverInterface
      */
     public function __construct()
     {
-        $this->setDriverParams('paypal-express','checkout','Paypal Express Checkout','Driver for Paypal express checkout.');
+        $this->setDriverParams(
+            'paypal-express',
+            'checkout',
+            'Paypal Express Checkout',
+            'Driver for Paypal express checkout.'
+        );
     }
 
     /**
@@ -86,43 +92,45 @@ class PayPalCheckoutDriver implements DriverInterface, CheckoutDriverInterface
     /**
      * Checkout rquest
      *
-     * @param CheckoutData $data
+     * @param ContentItemInterface $data
      * @return object|null
      */
-    public function checkout($data)
+    public function checkout(ContentItemInterface $data)
     {
         $response = $this->gateway->purchase([
-            'amount'        => $data->getAmount(),  
-            'currency'      => $data->getCurrency(),
-            'transactionId' => $data->getOrderId()          
+            'amount'        => $data->getValue('amount'),  
+            'currency'      => $data->getValue('currency'),
+            'description'   => $data->getValue('description'),
+            'transactionId' => $data->getValue('order_id')         
         ])->send();
 
-        $token = $response->getTransactionReference();
-        $data->save($token);
+        $checkoutResponse = new CheckoutResponse();            
+        $data = $response->getData();
 
-        return $response;
+        $checkoutResponse->setRedirectUrl($response->getRedirectUrl());
+        if ($response->isSuccessful() == false) {
+            $checkoutResponse->setError($response->getMessage());
+        }
+      
+        $checkoutResponse->setToken($data['TOKEN'] ?? null);
+    
+        return $checkoutResponse;
     }
 
     /**
      * Create transaction obj ref
      *
-     * @param array $params
+     * @param ContentItemInterface $params
      * @return TransactionInterface|null
      */
-    public function completeCheckout(array $params)
+    public function completeCheckout(ContentItemInterface $data)
     {
-        $token = $params['token'] ?? null;
-        if (empty($token) == true) {
-            return null;
-        }
-
-        $checkout = CheckoutData::get($token);
-
         $response = $this->gateway->completePurchase([
-            'token'         => $token,
-            'amount'        => $checkout->getAmount(),
-            'currency'      => $checkout->getCurrency(),
-            'transactionId' => $checkout->getOrderId()     
+            'token'         => $data->getValue('token'),
+            'amount'        => $data->getValue('amount'),
+            'currency'      => $data->getValue('currency'),
+            'description'   => $data->getValue('description'),
+            'transactionId' => $data->getValue('order_id')  
         ])->send();
        
         $transactionId = $response->getTransactionReference();

@@ -30,12 +30,13 @@ class Subscription extends SubscriptionApi implements SubscriptionInterface
     /**
      * Create subscription 
      *
-     * @param string $title
-     * @param string $description
-     * @param float $price    
+     * @param mixed $planId    
+     * @param string|null $title
+     * @param string|null $description    
+     * @param array|null $data
      * @return ApiResult
     */
-    public function create($planId, $title = null, $description = null)
+    public function create($planId, ?string $title = null, ?string $description = null, ?array $data = null)
     {
         $title = $title ?? 'Subscription Agreement';
         $description = $description ?? 'Subscription Agreement';
@@ -76,9 +77,10 @@ class Subscription extends SubscriptionApi implements SubscriptionInterface
      * Confirm (execute) subscription
      *
      * @param string $token
+     * @param array|null $data
      * @return ApiResult
-     */
-    public function confirm($token)
+    */
+    public function confirm($token, ?array $data = null)
     {
         try {
             $agreement = new Agreement();          
@@ -104,7 +106,7 @@ class Subscription extends SubscriptionApi implements SubscriptionInterface
     /**
      * Get subscription details
      *
-     * @param string $id
+     * @param mixed $id
      * @return ApiResult
      */
     public function details($id)

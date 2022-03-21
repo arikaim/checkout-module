@@ -9,6 +9,8 @@
 */
 namespace Arikaim\Modules\Checkout\Interfaces;
 
+use Arikaim\Core\Interfaces\Content\ContentItemInterface;
+
 /**
  * Checkout interface
  */
@@ -24,18 +26,18 @@ interface CheckoutDriverInterface
      /**
      * Checkout rquest
      *
-     * @param CheckoutData $data
+     * @param ContentItemInterface $data
      * @return object|null
      */
-    public function checkout($data);
+    public function checkout(ContentItemInterface $data);
 
     /**
      * Create transaction obj ref
      *
-     * @param array $params
+     * @param ContentItemInterface $params
      * @return TransactionInterface|null
      */
-    public function completeCheckout(array $params);  
+    public function completeCheckout(ContentItemInterface $data);  
 
     /**
      * Resolve transaction status
