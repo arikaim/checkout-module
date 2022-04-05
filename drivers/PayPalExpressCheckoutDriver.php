@@ -43,6 +43,20 @@ class PayPalExpressCheckoutDriver implements DriverInterface, CheckoutDriverInte
     protected $gateway;
 
     /**
+     * Set return url
+     *
+     * @var string|null
+     */
+    protected $returnUrl;
+
+    /**
+     * Set cancel url
+     *
+     * @var string|null
+     */
+    protected $cancelUrl;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -84,6 +98,8 @@ class PayPalExpressCheckoutDriver implements DriverInterface, CheckoutDriverInte
             'signature' => $signature
         ]);     
 
+        $this->returnUrl = $config['return_url'];
+        $this->cancelUrl = $config['cancel_url'];
         $this->gateway->setParameter('returnUrl',Url::BASE_URL . $config['return_url'] . $this->getDriverName() . '/');
         $this->gateway->setParameter('cancelUrl',Url::BASE_URL . $config['cancel_url']);
         $this->gateway->setParameter('notifyUrl',Url::BASE_URL . $config['notify_url']);
@@ -97,6 +113,10 @@ class PayPalExpressCheckoutDriver implements DriverInterface, CheckoutDriverInte
      */
     public function checkout(ContentItemInterface $data)
     {
+        $extensionName = $data->getValue('extension','all');
+        $this->gateway->setParameter('returnUrl',Url::BASE_URL . $this->returnUrl . $this->getDriverName() . '/' . $extensionName . '/');
+        $this->gateway->setParameter('cancelUrl',Url::BASE_URL . $this->cancelUrl . '/' . $extensionName . '/');
+
         $response = $this->gateway->purchase([
             'amount'        => $data->getValue('amount'),  
             'currency'      => $data->getValue('currency'),
@@ -139,15 +159,25 @@ class PayPalExpressCheckoutDriver implements DriverInterface, CheckoutDriverInte
         }
 
         $trResponse = $this->gateway->fetchTransaction(['transactionReference' => $transactionId])->send();
+        
         $data = $trResponse->getData();
+        $firstName = $data['FIRSTNAME'] ?? null;
+        $lastName = $data['LASTNAME'] ?? null;
+        $amount =  $data['AMT'] ?? $data['L_AMT0'] ?? null;
+        $currency = $data['CURRENCYCODE'] ?? $data['currency_code'] ?? null;
+        $type = $data['TRANSACTIONTYPE'] ?? Transaction::CHECKOUT;
+        if (empty($amount) == true || $amount == 0) {
+            // not valid
+            return null;
+        }
 
         $transaction = new Transaction(
             $transactionId,
             $data['EMAIL'] ?? null,
-            $data['FIRSTNAME'] . ' ' . $data['LASTNAME'],
-            $data['AMT'] ?? $data['L_AMT0'],
-            $data['CURRENCYCODE'] ?? $data['currency_code'],
-            $data['TRANSACTIONTYPE'] ?? Transaction::CHECKOUT,
+            $firstName . ' ' . $lastName,
+            $amount,
+            $currency,
+            $type,
             $this->getDriverName(),
             $data           
         );
