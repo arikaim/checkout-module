@@ -43,4 +43,12 @@ interface SubscriptionInterface
      * @return ApiResult
      */
     public function details($id);
+
+    /**
+     * Cancel subscription
+     *
+     * @param mixed $id
+     * @return ApiResult
+     */
+    public function cancel($id);
 }

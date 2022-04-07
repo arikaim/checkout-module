@@ -13,6 +13,7 @@ use PayPal\Api\Plan;
 use PayPal\Api\Agreement;
 use PayPal\Api\Payer;
 use PayPal\Exception\PayPalConnectionException;
+use PayPal\Api\AgreementStateDescriptor;
 
 use Arikaim\Core\Http\Url;
 use Arikaim\Core\Utils\DateTime;
@@ -27,6 +28,33 @@ use Exception;
  */
 class Subscription extends SubscriptionApi implements SubscriptionInterface
 {   
+
+    /**
+     * Cancel subscription
+     *
+     * @param mixed $id
+     * @return ApiResult
+     */
+    public function cancel($id)
+    {
+        $agreementStateDescriptor = new AgreementStateDescriptor();
+        $agreementStateDescriptor->setNote("Suspending the agreement");
+
+        try {
+            $agreement = Agreement::get($id,$this->getApiClient());
+            $response = $agreement->cancel($agreementStateDescriptor,$this->getApiClient());
+        } catch (PayPalConnectionException $e) {
+            return ApiResult::error($e->getMessage(),$e->getData());
+        } catch(Exception $e) {
+            return ApiResult::error($e->getMessage(),[]);
+        }
+       
+        return ApiResult::success([
+            'id'                => $id,
+            'response'          => $response
+        ]); 
+    }
+
     /**
      * Create subscription 
      *
