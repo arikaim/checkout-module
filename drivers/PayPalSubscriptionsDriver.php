@@ -63,7 +63,12 @@ class PayPalSubscriptionsDriver implements DriverInterface, SubscriptionsProvide
      */
     public function __construct()
     {
-        $this->setDriverParams('paypal-subscriptions','subscriptions','Paypal Subscriptions','Driver for Paypal subscriptions payments.');
+        $this->setDriverParams(
+            'paypal-subscriptions',
+            'subscriptions',
+            'Paypal Subscriptions',
+            'Driver for Paypal subscriptions payments.'
+        );
     }
 
     /**

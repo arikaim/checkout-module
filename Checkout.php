@@ -25,5 +25,6 @@ class Checkout extends Module
     {    
         $this->installDriver('Arikaim\\Modules\\Checkout\\Drivers\\PayPalSubscriptionsDriver'); 
         $this->installDriver('Arikaim\\Modules\\Checkout\\Drivers\\PayPalExpressCheckoutDriver'); 
+        $this->installDriver('Arikaim\\Modules\\Checkout\\Drivers\\StripeCheckoutDriver'); 
     }
 }

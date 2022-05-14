@@ -204,7 +204,7 @@ class StripeSubscriptionsDriver implements DriverInterface, SubscriptionsProvide
                 ->default('test');             
         });
 
-        // Sandbox Credentials
+        // Test mode Credentials
         $properties->property('test_group',function($property) {
             $property
                 ->title('Test Mode API Credentials')
