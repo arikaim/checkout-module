@@ -125,9 +125,6 @@ class StripeCheckoutDriver implements DriverInterface, CheckoutDriverInterface
             'cancel_url'  => $cancelUrl
         ];
 
-      //  print_r($data);
-       // exit();
-
         $response = \Stripe\Checkout\Session::create($data);
         $checkoutResponse = new CheckoutResponse();            
         $checkoutResponse->setRedirectUrl($response->url);
@@ -190,7 +187,7 @@ class StripeCheckoutDriver implements DriverInterface, CheckoutDriverInterface
      */
     public function getGateway()
     {
-        return $this->cleint;
+        return $this->client;
     }
     
     /**
