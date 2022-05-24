@@ -102,9 +102,9 @@ class StripeCheckoutDriver implements DriverInterface, CheckoutDriverInterface
         $description = $data->getValue('description');
         $extensionName = $data->getValue('extension','all');
         $successUrl = Url::BASE_URL . $this->returnUrl . $this->getDriverName() . '/' . $extensionName . '/?token={CHECKOUT_SESSION_ID}';
-        $cancelUrl = Url::BASE_URL . $this->cancelUrl . '/' . $extensionName . '/';
+        $cancelUrl = Url::BASE_URL . $this->cancelUrl . $extensionName . '/';
     
-        $data = [
+        $sessionData = [
             'line_items' => [
                 [
                     'price_data' => [
@@ -125,7 +125,21 @@ class StripeCheckoutDriver implements DriverInterface, CheckoutDriverInterface
             'cancel_url'  => $cancelUrl
         ];
 
-        $response = \Stripe\Checkout\Session::create($data);
+        $vendorFee = (float)$data->getValue('vendor_fee');
+        $vendorFee = \round(($vendorFee * 100),0);
+
+        $vendorAccount = $data->getValue('vendor_account');
+        if (empty($vendorFee) == false && empty($vendorAccount) == false) {
+            // add vendor fee checkout data
+            $sessionData['payment_intent_data'] = [
+                'application_fee_amount' => $vendorFee,
+                'transfer_data' => [
+                    'destination' => $vendorAccount
+                ]
+            ];
+        }
+
+        $response = \Stripe\Checkout\Session::create($sessionData);
         $checkoutResponse = new CheckoutResponse();            
         $checkoutResponse->setRedirectUrl($response->url);
        
