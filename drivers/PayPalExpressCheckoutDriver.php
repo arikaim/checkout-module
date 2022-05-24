@@ -70,6 +70,26 @@ class PayPalExpressCheckoutDriver implements DriverInterface, CheckoutDriverInte
     }
 
     /**
+     * Get import customer address content type action name
+     *
+     * @return string|null
+     */
+    public function getImportCustomerAddressAction(): ?string
+    {
+        return 'address.import.paypal';
+    }
+
+    /**
+     * Get import customer content type action name
+     *
+     * @return string|null
+     */
+    public function getImportCustomerAction(): ?string
+    {
+        return 'entity.import.paypal';
+    }
+
+    /**
      * Initialize driver
      *
      * @return void
