@@ -20,9 +20,10 @@ interface TransactionStorageInterface
      * Save transaction
      *
      * @param TransactionInterface $transaction
+     * @param int|null $userId
      * @return boolean
     */
-    public function saveTransaction(TransactionInterface $transaction): bool;
+    public function saveTransaction(TransactionInterface $transaction, ?int $userId = null): bool;
 
     /**
      * Get transaction
