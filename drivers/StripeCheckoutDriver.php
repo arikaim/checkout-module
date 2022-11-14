@@ -228,7 +228,7 @@ class StripeCheckoutDriver implements DriverInterface, CheckoutDriverInterface
      * Create driver config properties array
      *
      * @param Arikaim\Core\Collection\Properties $properties
-     * @return Properties
+     * @return void
      */
     public function createDriverConfig($properties)
     {

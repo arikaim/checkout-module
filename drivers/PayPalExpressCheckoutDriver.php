@@ -135,7 +135,7 @@ class PayPalExpressCheckoutDriver implements DriverInterface, CheckoutDriverInte
     {
         $extensionName = $data->getValue('extension','all');
         $this->gateway->setParameter('returnUrl',Url::BASE_URL . $this->returnUrl . $this->getDriverName() . '/' . $extensionName . '/');
-        $this->gateway->setParameter('cancelUrl',Url::BASE_URL . $this->cancelUrl . '/' . $extensionName . '/');
+        $this->gateway->setParameter('cancelUrl',Url::BASE_URL . $this->cancelUrl . $extensionName . '/');
 
         $response = $this->gateway->purchase([
             'amount'        => $data->getValue('amount'),  
@@ -236,7 +236,7 @@ class PayPalExpressCheckoutDriver implements DriverInterface, CheckoutDriverInte
      * Create driver config properties array
      *
      * @param Arikaim\Core\Collection\Properties $properties
-     * @return Properties
+     * @return void
      */
     public function createDriverConfig($properties)
     {

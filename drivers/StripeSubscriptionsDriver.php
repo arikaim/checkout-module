@@ -191,7 +191,7 @@ class StripeSubscriptionsDriver implements DriverInterface, SubscriptionsProvide
      * Create driver config properties array
      *
      * @param Arikaim\Core\Collection\Properties $properties
-     * @return Properties
+     * @return void
      */
     public function createDriverConfig($properties)
     {
