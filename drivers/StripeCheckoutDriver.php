@@ -276,7 +276,7 @@ class StripeCheckoutDriver implements DriverInterface, CheckoutDriverInterface
         $properties->property('private_key',function($property) {
             $property
                 ->title('Private Key')
-                ->type('text')
+                ->type('key')
                 ->group('live')
                 ->default('');              
         });

@@ -241,7 +241,7 @@ class StripeSubscriptionsDriver implements DriverInterface, SubscriptionsProvide
         $properties->property('private_key',function($property) {
             $property
                 ->title('Private Key')
-                ->type('text')
+                ->type('key')
                 ->group('live')
                 ->default('');              
         });

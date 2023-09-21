@@ -259,7 +259,7 @@ class PayPalSubscriptionsDriver implements DriverInterface, SubscriptionsProvide
         $properties->property('client_id',function($property) {
             $property
                 ->title('Api Client Id')
-                ->type('text')
+                ->type('key')
                 ->group('live')
                 ->default('');              
         });
@@ -267,7 +267,7 @@ class PayPalSubscriptionsDriver implements DriverInterface, SubscriptionsProvide
         $properties->property('client_secret',function($property) {
             $property
                 ->title('Api Client Secret')
-                ->type('text')
+                ->type('key')
                 ->group('live')
                 ->default('');             
         });

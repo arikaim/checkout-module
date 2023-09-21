@@ -302,7 +302,7 @@ class PayPalExpressCheckoutDriver implements DriverInterface, CheckoutDriverInte
         $properties->property('password',function($property) {
             $property
                 ->title('Password')
-                ->type('text')
+                ->type('key')
                 ->group('live')
                 ->default('');             
         });
@@ -310,7 +310,7 @@ class PayPalExpressCheckoutDriver implements DriverInterface, CheckoutDriverInte
         $properties->property('signature',function($property) {
             $property
                 ->title('Signature')
-                ->type('text')
+                ->type('key')
                 ->group('live')
                 ->default('');             
         });
