@@ -95,8 +95,10 @@ class Subscription extends SubscriptionApi implements SubscriptionInterface
         try {
             $response = $agreement->create($this->getApiClient());   
         } catch (PayPalConnectionException $e) {
+            echo $e->getMessage();
             return ApiResult::error($e->getMessage(),$e->getData());
         } catch(Exception $e) {
+            $e->getMessage();
             return ApiResult::error($e->getMessage(),[]);
         }
         
