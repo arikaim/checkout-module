@@ -68,9 +68,12 @@ class Subscription extends SubscriptionApi implements SubscriptionInterface
     {
         $title = $title ?? 'Subscription Agreement';
         $description = $description ?? 'Subscription Agreement';
-        $startDate = DateTime::addInterval('10 hours')->format(DateTime::ISO8601ZULU_FORMAT);
+    //    $startDate = DateTime::addInterval('10 hours')->format(DateTime::ISO8601ZULU_FORMAT);
         //$startDate = DateTime::getDateTime()->format(DateTime::ISO8601ZULU_FORMAT);
 
+        $startDate = DateTime::create('now');
+        $startDate->setTimezone(new \DateTimeZone('UTC'));
+    
         $plan = new Plan();
         $plan->setId($planId);
         
@@ -85,8 +88,10 @@ class Subscription extends SubscriptionApi implements SubscriptionInterface
             ->setPlan($plan)
             ->setPayer($payer);
        
-        $agreement->setStartDate(null);
-        
+        echo $startDate->format(DateTime::ISO8601ZULU_FORMAT);
+
+        $agreement->setStartDate($startDate->format(DateTime::ISO8601ZULU_FORMAT));
+
         try {
             $response = $agreement->create($this->getApiClient());   
         } catch (PayPalConnectionException $e) {
