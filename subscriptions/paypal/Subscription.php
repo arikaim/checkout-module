@@ -73,7 +73,8 @@ class Subscription extends SubscriptionApi implements SubscriptionInterface
 
         $startDate = DateTime::create('now');
         $startDate->setTimezone(new \DateTimeZone('UTC'));
-    
+        $startDate->add( new \DateInterval('PT5M') );
+        
         $plan = new Plan();
         $plan->setId($planId);
         
@@ -95,10 +96,8 @@ class Subscription extends SubscriptionApi implements SubscriptionInterface
         try {
             $response = $agreement->create($this->getApiClient());   
         } catch (PayPalConnectionException $e) {
-            echo $e->getMessage();
             return ApiResult::error($e->getMessage(),$e->getData());
         } catch(Exception $e) {
-            $e->getMessage();
             return ApiResult::error($e->getMessage(),[]);
         }
         
