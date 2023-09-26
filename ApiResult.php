@@ -29,7 +29,7 @@ class ApiResult
      * @param string|null $error
      * @param array|null $errorDetails
      */
-    public function __construct($status = 'success', $result, $error = null, $errorDetails = null)
+    public function __construct($status = 'success', $result = [], $error = null, $errorDetails = null)
     {
         $this->result = [
             'status'        => $status,
