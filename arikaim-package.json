@@ -1,7 +1,7 @@
 {
     "title": "Checkout",
     "name": "checkout",
-    "version": "1.3.21",
+    "version": "1.3.22",
     "package-type": "module",
     "class": "Checkout",
     "description": "Arikam CMS checkout module",

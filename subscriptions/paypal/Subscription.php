@@ -74,7 +74,7 @@ class Subscription extends SubscriptionApi implements SubscriptionInterface
         $startDate = DateTime::create('now');
         $startDate->setTimezone(new \DateTimeZone('UTC'));
         $startDate->add( new \DateInterval('PT5M') );
-        
+
         $plan = new Plan();
         $plan->setId($planId);
         
@@ -89,8 +89,6 @@ class Subscription extends SubscriptionApi implements SubscriptionInterface
             ->setPlan($plan)
             ->setPayer($payer);
        
-        echo $startDate->format(DateTime::ISO8601ZULU_FORMAT);
-
         $agreement->setStartDate($startDate->format(DateTime::ISO8601ZULU_FORMAT));
 
         try {
