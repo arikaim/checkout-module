@@ -81,7 +81,7 @@ class Subscription extends SubscriptionApi implements SubscriptionInterface
         $agreement
             ->setName($title)
             ->setDescription($description)
-         //   ->setStartDate($startDate)
+            ->setStartDate($startDate)
             ->setPlan($plan)
             ->setPayer($payer);
        
