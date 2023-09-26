@@ -223,7 +223,7 @@ class SquareCheckoutDriver implements DriverInterface, CheckoutDriverInterface
         $properties->property('access_token',function($property) {
             $property
                 ->title('Access Token')
-                ->type('text')
+                ->type('key')
                 ->group('live')
                 ->default('');              
         });
